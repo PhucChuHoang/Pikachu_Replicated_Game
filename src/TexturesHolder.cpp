@@ -13,7 +13,7 @@ TexturesHolder::~TexturesHolder() {
 
 TexturesHolder::TexturesHolder() {
     for (int i = 0; i < 33; ++i) {
-        std::string path = "assets/images/pokemon/" + std::to_string(i + 1) + ".png";
+        std::string path = TEXTURES_PATH + std::to_string(i + 1) + ".png";
         Texture2D img = LoadTexture(path.c_str());
         textures.insert(std::make_pair(i, img));
     }

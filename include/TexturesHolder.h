@@ -3,6 +3,8 @@
 #include <string>
 #include <raylib.h>
 #include <stdexcept>
+#include <vector>
+#include "Const.h"
 
 class TexturesHolder {
 private:
