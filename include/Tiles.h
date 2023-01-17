@@ -6,6 +6,7 @@ private:
     int ID;                         // ID of image in TexturesHolder
     int x, y;                       // coordinates of tile
     Texture2D& texture;             // texture of tile
+    bool isDeleted = false;         // if true, tile will be deleted, will not be drawn
 
 public:
     Tiles(int ID, int x, int y);

@@ -11,3 +11,11 @@ const int TILES_HEIGHT = 9;
 
 const int PADDING_X = 150;
 const int PADDING_Y = 100;
+
+const std::vector<int> numbPerImg = { 4, 4, 6, 4, 4, 
+                                      4, 4, 4, 6, 4, 
+                                      4, 6, 4, 4, 4, 
+                                      4, 4, 4, 6, 4, 
+                                      4, 6, 4, 4, 4, 
+                                      4, 4, 4, 6, 4, 
+                                      4, 4, 4};

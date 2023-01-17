@@ -9,6 +9,9 @@ void Tiles::setChosen(bool State) {
 }
 
 void Tiles::draw() {
+    if (isDeleted) {
+        return;
+    }
     if (isChosen) {
         DrawTexture(texture, PADDING_X + x*texture.width, PADDING_Y + y*texture.height, GRAY);
     }
