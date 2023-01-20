@@ -36,6 +36,15 @@ Level::Level() {
         }
     }
     totalTiles = TILES_HEIGHT * TILES_WIDTH;
+    tilesRect.resize(TILES_HEIGHT);
+    for (int i = 0; i < TILES_HEIGHT; ++i) {
+        tilesRect[i].resize(TILES_WIDTH);
+    }
+    for (int i = 0; i < TILES_HEIGHT; ++i) {
+        for (int j = 0; j < TILES_WIDTH; ++j) {
+            tilesRect[i][j] = { (float)PADDING_X + j * TILES_SIZE_WIDTH, (float)PADDING_Y + i * TILES_SIZE_HEIGHT, (float)TILES_SIZE_WIDTH, (float)TILES_SIZE_HEIGHT };
+        }
+    }
 }
 
 Level::~Level() {
@@ -55,5 +64,60 @@ void Level::draw() {
 }
 
 void Level::update() {
-    currentTime--;
+    if (checkOver()) {
+        printf("Game Over\n");
+        return;
+    }
+    if (checkWin()) {
+        return;
+    }
+    Vector2 mousePos = { 0, 0 };
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        mousePos = GetMousePosition();
+        getClick(mousePos.x, mousePos.y);
+    }
+}
+
+bool Level::checkOver() {
+    if (currentTime == 0) {
+        isOver = true;
+    }
+    return isOver;
+}
+
+bool Level::checkWin() {
+    return totalTiles == 0;
+}
+
+void Level::checkMatching() {
+    if (tilesQueue.front()->getID() == tilesQueue.back()->getID()) {
+        tilesQueue.front()->setState(TileState::Deleted);
+        tilesQueue.back()->setState(TileState::Deleted);
+        totalTiles -= 2;
+        return;
+    }
+    else {
+        tilesQueue.front()->setState(TileState::NotChosen);
+        tilesQueue.back()->setState(TileState::NotChosen);
+        return;
+    }
+    return;
+}
+
+void Level::getClick(int x, int y) {
+    for (int i = 0; i < TILES_HEIGHT; ++i) {
+        for (int j = 0; j < TILES_WIDTH; ++j) {
+            if (CheckCollisionPointRec({ (float)x, (float)y }, tilesRect[i][j]) && tiles[i][j]->getState() == TileState::NotChosen) {
+                tiles[i][j]->setState(TileState::Chosen);
+                tilesQueue.push(tiles[i][j]);
+                if (tilesQueue.size() == 2) {
+                    checkMatching();
+                    tilesQueue.pop();
+                    tilesQueue.pop();
+                }
+                return;
+            }
+        }
+    }
+    return;
 }

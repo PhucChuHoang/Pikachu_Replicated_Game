@@ -4,6 +4,7 @@
 #include <raylib.h>
 #include <stdexcept>
 #include <vector>
+#include <queue>
 #include "Const.h"
 
 class TexturesHolder {

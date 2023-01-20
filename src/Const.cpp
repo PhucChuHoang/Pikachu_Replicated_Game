@@ -9,6 +9,9 @@ const char* GAME_NAME = "Pokemon Matching Game";
 const int TILES_WIDTH = 16;
 const int TILES_HEIGHT = 9;
 
+const int TILES_SIZE_WIDTH = 53;
+const int TILES_SIZE_HEIGHT = 65;
+
 const int PADDING_X = 150;
 const int PADDING_Y = 100;
 

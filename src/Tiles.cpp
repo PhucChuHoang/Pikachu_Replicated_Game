@@ -1,21 +1,29 @@
 #include "Tiles.h"
 
 Tiles::Tiles(int ID, int x, int y) : ID(ID), x(x), y(y), texture(TexturesHolder::GetInstance().get(ID)) {
-
+    state = TileState::NotChosen;
 }
 
-void Tiles::setChosen(bool State) {
-    isChosen = State;
+void Tiles::setState(TileState State) {
+    state = State;
 }
 
 void Tiles::draw() {
-    if (isDeleted) {
+    if (state == TileState::Deleted) {
         return;
     }
-    if (isChosen) {
-        DrawTexture(texture, PADDING_X + x*texture.width, PADDING_Y + y*texture.height, GRAY);
+    if (state == TileState::Chosen) {
+        DrawTexture(texture, PADDING_X + x*TILES_SIZE_WIDTH, PADDING_Y + y*TILES_SIZE_HEIGHT, GRAY);
     }
     else {
-        DrawTexture(texture, PADDING_X + x*texture.width, PADDING_Y + y*texture.height, WHITE);
+        DrawTexture(texture, PADDING_X + x*TILES_SIZE_WIDTH, PADDING_Y + y*TILES_SIZE_HEIGHT, WHITE);
     }
+}
+
+TileState Tiles::getState() {
+    return state;
+}
+
+int Tiles::getID() {
+    return ID;
 }

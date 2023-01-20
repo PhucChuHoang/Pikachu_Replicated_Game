@@ -19,6 +19,7 @@ void Game::run() {
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
+        level->update();
         level->draw();
         EndDrawing();
     }
