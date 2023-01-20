@@ -9,7 +9,7 @@ private:
     bool isOver;                            // If isOver == true => Game Over
     int totalTiles; 
     std::vector<int> countPerImg;           // Count number of tiles per image    
-    std::queue<Tiles*> tilesQueue;               // Queue of tiles that have been clicked
+    std::queue<Tiles*> tilesQueue;          // Queue of tiles that have been clicked
 
 public:
     Level();
