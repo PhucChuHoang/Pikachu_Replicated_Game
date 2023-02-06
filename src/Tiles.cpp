@@ -27,3 +27,11 @@ TileState Tiles::getState() {
 int Tiles::getID() {
     return ID;
 }
+
+int Tiles::getX() {
+    return x;
+}
+
+int Tiles::getY() {
+    return y;
+}

@@ -22,3 +22,8 @@ const std::vector<int> numbPerImg = { 4, 4, 6, 4, 4,
                                       4, 6, 4, 4, 4, 
                                       4, 4, 4, 6, 4, 
                                       4, 4, 4};
+
+const int directionX[4] = {1, -1, 0, 0};
+const int directionY[4] = {0, 0, 1, -1};
+
+const int INF = 100000;

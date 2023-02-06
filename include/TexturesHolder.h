@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include <vector>
 #include <queue>
+#include <algorithm>
+#include <utility>
 #include "Const.h"
 
 class TexturesHolder {

@@ -13,4 +13,6 @@ public:
     void draw();
     TileState getState();
     int getID();
+    int getX();
+    int getY();
 };
