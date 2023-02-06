@@ -1,0 +1,4 @@
+16x9 = 144
+Width = 16x53 = 848
+Height = 9x65 = 585
+Window 1200x800
