@@ -110,72 +110,37 @@ void Level::checkMatching() {
         return;
     }
     bfs();
-    // if (tilesQueue.front()->getID() == tilesQueue.back()->getID()) {
-    //     tilesQueue.front()->setState(TileState::Deleted);
-    //     tilesQueue.back()->setState(TileState::Deleted);
-    //     return;
-    // }
-    // if (tilesQueue.front()->getX() == tilesQueue.back()->getX()) {
-    //     bool havePath = true;
-    //     for (int i = std::min(tilesQueue.front()->getY(), tilesQueue.back()->getY()) + 1; i < std::max(tilesQueue.front()->getY(), tilesQueue.back()->getY()); ++i) {
-    //         if (tiles[tilesQueue.front()->getX()][i]->getState() != Deleted) {
-    //             havePath = false;
-    //             break;
-    //         }
-    //     }
-    //     if (havePath) {
-    //         tilesQueue.front()->setState(TileState::Deleted);
-    //         tilesQueue.back()->setState(TileState::Deleted);
-    //         return;
-    //     }
-    // }
-    // if (tilesQueue.front()->getY() == tilesQueue.back()->getY()) {
-    //     bool havePath = true;
-    //     for (int i = std::min(tilesQueue.front()->getX(), tilesQueue.back()->getX()) + 1; i < std::max(tilesQueue.front()->getX(), tilesQueue.back()->getX()); ++i) {
-    //         if (tiles[i][tilesQueue.front()->getY()]->getState() != Deleted) {
-    //             havePath = false;
-    //             break;
-    //         }
-    //     }
-    //     if (havePath) {
-    //         tilesQueue.front()->setState(TileState::Deleted);
-    //         tilesQueue.back()->setState(TileState::Deleted);
-    //         return;
-    //     }
-    // }
-
 }
 
 void Level::bfs() { 
-    // TODO: Chỉnh x y cho đúng với bảng
-    // cột r mới tới hàng 
     for (int i = 0; i < TILES_HEIGHT + 2; ++i) {
         for (int j = 0; j < TILES_WIDTH + 2; ++j) {
             ansTable[i][j] = INF;
         }
     }
-    std::deque<DequePoint> q;
+    std::queue<std::pair<int, int>> q;
     tilesQueue.front()->setState(TileState::Deleted);
     tilesQueue.back()->setState(TileState::Deleted);
-    q.push_back({tilesQueue.front()->getX(), tilesQueue.front()->getY(), {0, 0}, 0});
+    ansTable[tilesQueue.front()->getY()][tilesQueue.front()->getX()] = 0;
+    q.push({tilesQueue.front()->getX(), tilesQueue.front()->getY()});
     while(!q.empty()) {
-        DequePoint current = q.front();
-        q.pop_front();
-        ansTable[current.x][current.y] = current.countChange;
-        if (tiles[current.x][current.y]->getState() != Deleted) continue;
+        auto current = q.front();
+        q.pop();
         for (int i = 0; i < 4; ++i) {
-            if(current.x + directionX[i] >= 0 && current.y + directionY[i] >= 0 && current.x + directionY[i] < TILES_HEIGHT + 2 && current.y + directionY[i] < TILES_WIDTH + 2) {
-                if (ansTable[current.x + directionX[i]][current.y +directionY[i]] != INF) continue;
-                if (std::make_pair(directionX[i], directionY[i]) == current.prevDirection) {
-                    q.push_front({current.x + directionX[i], current.y + directionY[i], {directionX[i], directionY[i]}, current.countChange});
+            for (
+                int x = current.first + directionX[i], y = current.second + directionY[i], val = ansTable[current.second][current.first] + 1; 
+                x >= 0 && y >= 0 && y < TILES_HEIGHT + 2 && x < TILES_WIDTH + 2;
+                x += directionX[i], y += directionY[i]){
+                if (ansTable[y][x] < val || tiles[y][x]->getState() != Deleted){
+                    break;
                 }
-                else {
-                    q.push_back({current.x + directionX[i], current.y + directionY[i], {directionX[i], directionY[i]}, current.countChange + 1});
-                }
+                ansTable[y][x] = val;
+                q.push({x, y});
             }
         }
     }
-    if (ansTable[tilesQueue.back()->getX()][tilesQueue.back()->getY()] > 3) {
+    printf("ansTable: %i\n", ansTable[tilesQueue.back()->getY()][tilesQueue.back()->getX()]);
+    if (ansTable[tilesQueue.back()->getY()][tilesQueue.back()->getX()] > 3) {
         tilesQueue.front()->setState(TileState::NotChosen);
         tilesQueue.back()->setState(TileState::NotChosen);
     }
@@ -185,7 +150,7 @@ void Level::getClick(int x, int y) {
     for (int i = 0; i < TILES_HEIGHT + 2; ++i) {
         for (int j = 0; j < TILES_WIDTH + 2; ++j) {
             if (CheckCollisionPointRec({ (float) x, (float) y}, tilesRect[i][j]) && tiles[i][j]->getState() == TileState::NotChosen) {
-                printf("X: %i, Y: %i \n", i, j);
+                printf("X: %i, Y: %i \n", tiles[i][j] -> getX(), tiles[i][j] -> getY());
                 tiles[i][j]->setState(TileState::Chosen);
                 tilesQueue.push(tiles[i][j]);
                 if (tilesQueue.size() == 2) {
