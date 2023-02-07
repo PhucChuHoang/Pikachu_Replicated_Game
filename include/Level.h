@@ -19,9 +19,10 @@ public:
     void draw() override;
     void update() override;
     std::vector<std::vector<int>> random();
-    void checkMatching();
+    bool checkMatching();
     bool checkOver();                       // If currentTime == 0 => Game Over
     bool checkWin();                        // If totalTiles == 0 => Win => Next Level
     void getClick(int x, int y);            // Get click from mouse
     void bfs();
+    bool isPossibleMoves();
 };

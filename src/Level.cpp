@@ -103,13 +103,25 @@ bool Level::checkWin() {
     return totalTiles == 0;
 }
 
-void Level::checkMatching() {
+bool Level::checkMatching() {
     if (tilesQueue.front()->getID() != tilesQueue.back()->getID()) {
         tilesQueue.front()->setState(TileState::NotChosen);
         tilesQueue.back()->setState(TileState::NotChosen);
-        return;
+        return false;
     }
     bfs();
+    if (tilesQueue.front()->getState() == Deleted || tilesQueue.back()->getState() == Deleted) {
+        totalTiles -= 2;
+        printf("Total tiles: %d\n", totalTiles);
+        tilesQueue.pop();
+        tilesQueue.pop();
+        if (isPossibleMoves() != true) {
+            printf("No more move left\n");
+            //shuffle
+        }
+        return true;
+    }
+    return false;
 }
 
 void Level::bfs() { 
@@ -139,7 +151,6 @@ void Level::bfs() {
             }
         }
     }
-    printf("ansTable: %i\n", ansTable[tilesQueue.back()->getY()][tilesQueue.back()->getX()]);
     if (ansTable[tilesQueue.back()->getY()][tilesQueue.back()->getX()] > 3) {
         tilesQueue.front()->setState(TileState::NotChosen);
         tilesQueue.back()->setState(TileState::NotChosen);
@@ -154,7 +165,9 @@ void Level::getClick(int x, int y) {
                 tiles[i][j]->setState(TileState::Chosen);
                 tilesQueue.push(tiles[i][j]);
                 if (tilesQueue.size() == 2) {
-                    checkMatching();
+                    if (checkMatching()) {
+                        return;
+                    }
                     tilesQueue.pop();
                     tilesQueue.pop();
                 }
@@ -163,4 +176,42 @@ void Level::getClick(int x, int y) {
         }
     }
     return;
+}
+
+bool Level::isPossibleMoves() {
+    for (int i = 0; i < TILES_HEIGHT + 2; ++i) {
+        for (int j = 0; j < TILES_WIDTH + 2; ++j) {
+            if (tiles[i][j] -> getState() == Deleted) {
+                continue;
+            }
+            for (int k = 0; k < TILES_HEIGHT + 2; ++k) {
+                for (int l = 0; l < TILES_WIDTH + 2; ++l) {
+                    if (tiles[k][l] -> getState() == Deleted) {
+                        continue;
+                    }
+                    if (tiles[i][j] -> getID() != tiles[k][l] -> getID() || (i == k && j == l)) {
+                        continue;
+                    }
+                    tilesQueue.push(tiles[i][j]);
+                    tilesQueue.push(tiles[k][l]);
+                    bfs();
+                    if (tilesQueue.front()->getState() == Deleted || tilesQueue.back()->getState() == Deleted) {
+                        printf("X: %i, Y: %i \n", tilesQueue.front()->getX(), tilesQueue.front()->getY());
+                        printf("X: %i, Y: %i \n", tilesQueue.back()->getX(), tilesQueue.back()->getY());
+                        tilesQueue.front()->setState(TileState::NotChosen);
+                        tilesQueue.back()->setState(TileState::NotChosen);
+                        tilesQueue.pop();
+                        tilesQueue.pop();
+                        if (tilesQueue.empty()) {
+                            printf("Empty\n");
+                        }
+                        return true;
+                    }
+                    tilesQueue.pop();
+                    tilesQueue.pop();
+                }
+            }
+        }
+    }
+    return false;
 }
