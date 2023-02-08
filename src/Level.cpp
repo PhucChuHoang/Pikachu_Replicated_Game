@@ -116,8 +116,7 @@ bool Level::checkMatching() {
         tilesQueue.pop();
         tilesQueue.pop();
         if (isPossibleMoves() != true) {
-            printf("No more move left\n");
-            //shuffle
+            shuffle();
         }
         return true;
     }
@@ -214,4 +213,28 @@ bool Level::isPossibleMoves() {
         }
     }
     return false;
+}
+
+void Level::shuffle() {
+    std::vector<int> leftID;
+    for (int i = 0; i < TILES_HEIGHT + 2; ++i) {
+        for (int j = 0; j < TILES_WIDTH + 2; ++j) {
+            if (tiles[i][j] -> getState() == Deleted) {
+                continue;
+            }
+            leftID.push_back(tiles[i][j] -> getID());
+        }
+    }
+    std::random_shuffle(leftID.begin(), leftID.end());
+    int index = 0;
+    for (int i = 0; i < TILES_HEIGHT + 2; ++i) {
+        for (int j = 0; j < TILES_WIDTH + 2; ++j) {
+            if (tiles[i][j] -> getState() == Deleted) {
+                continue;
+            }
+            delete tiles[i][j];
+            tiles[i][j] = new Tiles(leftID[index], j, i);
+            ++index;
+        }
+    }
 }

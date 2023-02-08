@@ -1,7 +1,7 @@
 #include "Const.h"
 
-const int SCREEN_WIDTH = 1200;
-const int SCREEN_HEIGHT = 800;
+const int SCREEN_WIDTH = 1250;
+const int SCREEN_HEIGHT = 900;
 
 const char* TEXTURES_PATH = "assets/images/pokemon/";
 const char* GAME_NAME = "Pokemon Matching Game";

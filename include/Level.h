@@ -25,4 +25,5 @@ public:
     void getClick(int x, int y);            // Get click from mouse
     void bfs();
     bool isPossibleMoves();
+    void shuffle();
 };
