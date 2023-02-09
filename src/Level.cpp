@@ -75,15 +75,10 @@ void Level::draw() {
 }
 
 void Level::update() {
-    if (checkOver()) {
-        printf("Game Over\n");
-        //Do sth
-        return;
-    }
-    if (checkWin()) {
-        printf("Win\n");
-        //Do sth
-        return;
+    ++countFrame;
+    if (countFrame == 60) {
+        --currentTime;
+        countFrame = 0;
     }
     Vector2 mousePos = { 0, 0 };
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
@@ -112,7 +107,6 @@ bool Level::checkMatching() {
     bfs();
     if (tilesQueue.front()->getState() == Deleted || tilesQueue.back()->getState() == Deleted) {
         totalTiles -= 2;
-        printf("Total tiles: %d\n", totalTiles);
         tilesQueue.pop();
         tilesQueue.pop();
         if (isPossibleMoves() != true) {
@@ -159,9 +153,18 @@ void Level::bfs() {
 void Level::getClick(int x, int y) {
     for (int i = 0; i < TILES_HEIGHT + 2; ++i) {
         for (int j = 0; j < TILES_WIDTH + 2; ++j) {
-            if (CheckCollisionPointRec({ (float) x, (float) y}, tilesRect[i][j]) && tiles[i][j]->getState() == TileState::NotChosen) {
-                printf("X: %i, Y: %i \n", tiles[i][j] -> getX(), tiles[i][j] -> getY());
-                tiles[i][j]->setState(TileState::Chosen);
+            if (CheckCollisionPointRec({ (float) x, (float) y}, tilesRect[i][j])) {
+                if (tiles[i][j]->getState() == Deleted) {
+                    return;
+                }
+                if (tiles[i][j]->getState() == NotChosen) {
+                    tiles[i][j]->setState(TileState::Chosen);
+                }
+                else if (tiles[i][j]->getState() == Chosen){
+                    tiles[i][j]->setState(TileState::NotChosen);
+                    tilesQueue.pop();
+                    return;
+                }
                 tilesQueue.push(tiles[i][j]);
                 if (tilesQueue.size() == 2) {
                     if (checkMatching()) {
@@ -195,15 +198,12 @@ bool Level::isPossibleMoves() {
                     tilesQueue.push(tiles[k][l]);
                     bfs();
                     if (tilesQueue.front()->getState() == Deleted || tilesQueue.back()->getState() == Deleted) {
-                        printf("X: %i, Y: %i \n", tilesQueue.front()->getX(), tilesQueue.front()->getY());
-                        printf("X: %i, Y: %i \n", tilesQueue.back()->getX(), tilesQueue.back()->getY());
+                        printf("X: %d Y: %d\n", tilesQueue.front()->getX(), tilesQueue.front()->getY());
+                        printf("X: %d Y: %d\n", tilesQueue.back()->getX(), tilesQueue.back()->getY());
                         tilesQueue.front()->setState(TileState::NotChosen);
                         tilesQueue.back()->setState(TileState::NotChosen);
                         tilesQueue.pop();
                         tilesQueue.pop();
-                        if (tilesQueue.empty()) {
-                            printf("Empty\n");
-                        }
                         return true;
                     }
                     tilesQueue.pop();

@@ -5,6 +5,7 @@ class Level: public Drawable {
 private:
     std::vector<std::vector<Tiles*>> tiles;
     std::vector<std::vector<Rectangle>> tilesRect;
+    int countFrame;
     int currentTime;                        
     bool isOver;                            // If isOver == true => Game Over
     int totalTiles; 
