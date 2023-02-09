@@ -27,4 +27,5 @@ public:
     void bfs();
     bool isPossibleMoves();
     void shuffle();
+    int getTime();
 };

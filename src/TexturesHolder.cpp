@@ -17,6 +17,10 @@ TexturesHolder::TexturesHolder() {
         Texture2D img = LoadTexture(path.c_str());
         textures.insert(std::make_pair(i, img));
     }
+
+    std::string path = "assets/images/timebar2.png";
+    Texture2D img = LoadTexture(path.c_str());
+    textures.insert(std::make_pair(33, img));
 }
 
 Texture2D& TexturesHolder::get(int ID) {

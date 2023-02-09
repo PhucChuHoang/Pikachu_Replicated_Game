@@ -52,9 +52,10 @@ void Level::createMap() {
 }
 
 Level::Level() {
-    currentTime = 300;                      // 5 minutes 
+    currentTime = 420;                      // 7 minutes 
     isOver = false;              
     totalTiles = TILES_HEIGHT * TILES_WIDTH;
+    countFrame = 0;
     createMap();
 }
 
@@ -237,4 +238,8 @@ void Level::shuffle() {
             ++index;
         }
     }
+}
+
+int Level::getTime() {
+    return currentTime;
 }

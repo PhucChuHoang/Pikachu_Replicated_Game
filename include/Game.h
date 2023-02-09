@@ -13,6 +13,7 @@ private:
     Level* level;
     int currentLevel;
     int totalScore;
+    Texture2D timeBar;
 
 public:
     Game();
