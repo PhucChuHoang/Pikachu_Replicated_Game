@@ -13,9 +13,13 @@ private:
     std::vector<int> countPerImg;           // Count number of tiles per image    
     std::queue<Tiles*> tilesQueue;          // Queue of tiles that have been clicked
     int ansTable[11][18];
-    Texture2D pauseButton = TexturesHolder::GetInstance().get(34);
-    Texture2D resumeButton = TexturesHolder::GetInstance().get(35);
+    
+    Texture2D pauseButton = TexturesHolder::GetInstance().get(static_cast<int>(TextureValue::pauseButton));
+    Texture2D resumeButton = TexturesHolder::GetInstance().get(static_cast<int>(TextureValue::resumeButton));
     Rectangle pauseButtonRect = { 1120, 250, (float)pauseButton.width, (float)pauseButton.height };
+
+    Texture2D shuffleButton = TexturesHolder::GetInstance().get(static_cast<int>(TextureValue::shuffleButton));
+    Rectangle shuffleButtonRect = { 1120, 400, (float)shuffleButton.width, (float)shuffleButton.height };
 
 public:
     Level();

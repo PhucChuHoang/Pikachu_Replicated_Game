@@ -70,11 +70,12 @@ Level::~Level() {
 
 void Level::draw() {
     if (!isPause) {
-        DrawTexture(pauseButton, 1120, 250, WHITE);
+        DrawTexture(pauseButton, 1120, 250, {251,202,206,255});
     }
     else {
-        DrawTexture(resumeButton, 1120, 250, WHITE);
+        DrawTexture(resumeButton, 1120, 250, {251,202,206,255});
     }
+    DrawTexture(shuffleButton, 1120, 400, {251,202,206,255});
     for (int i = 0; i < TILES_HEIGHT + 2; ++i) {
         for (int j = 0; j < TILES_WIDTH + 2; ++j) {
             tiles[i][j]->draw();
@@ -89,6 +90,10 @@ void Level::update() {
     }
     if (CheckCollisionPointRec(mousePos, pauseButtonRect)) {
         isPause = !isPause;
+        return;
+    }
+    else if (CheckCollisionPointRec(mousePos, shuffleButtonRect)) {
+        shuffle();
         return;
     }
     if (isPause) {

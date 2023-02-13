@@ -40,5 +40,7 @@ struct DequePoint {
 enum TextureValue {
     timeBar = 33,
     pauseButton = 34,
-    resumeButton = 35
+    resumeButton = 35,
+    background = 36,
+    shuffleButton = 37,
 };
