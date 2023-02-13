@@ -20,11 +20,15 @@ TexturesHolder::TexturesHolder() {
 
     std::string path = "assets/images/timebar2.png";
     Texture2D img = LoadTexture(path.c_str());
-    textures.insert(std::make_pair(33, img));
+    textures.insert(std::make_pair(static_cast<int>(TextureValue::timeBar), img));
 
-    path = "assets/images/background.png";
+    path = "assets/button/pauseButton.png";
     img = LoadTexture(path.c_str());
-    textures.insert(std::make_pair(34, img));
+    textures.insert(std::make_pair(static_cast<int>(TextureValue::pauseButton), img));
+
+    path = "assets/button/resumeButton.png";
+    img = LoadTexture(path.c_str());
+    textures.insert(std::make_pair(static_cast<int>(TextureValue::resumeButton), img));
 }
 
 Texture2D& TexturesHolder::get(int ID) {

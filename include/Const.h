@@ -36,3 +36,9 @@ struct DequePoint {
     std::pair<int, int> prevDirection;
     int countChange;
 };
+
+enum TextureValue {
+    timeBar = 33,
+    pauseButton = 34,
+    resumeButton = 35
+};

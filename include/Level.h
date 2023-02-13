@@ -6,12 +6,16 @@ private:
     std::vector<std::vector<Tiles*>> tiles;
     std::vector<std::vector<Rectangle>> tilesRect;
     int countFrame;
-    int currentTime;                        
+    int currentTime;     
+    bool isPause;                           // If isPause == true => Pause                   
     bool isOver;                            // If isOver == true => Game Over
     int totalTiles; 
     std::vector<int> countPerImg;           // Count number of tiles per image    
     std::queue<Tiles*> tilesQueue;          // Queue of tiles that have been clicked
     int ansTable[11][18];
+    Texture2D pauseButton = TexturesHolder::GetInstance().get(34);
+    Texture2D resumeButton = TexturesHolder::GetInstance().get(35);
+    Rectangle pauseButtonRect = { 1120, 250, (float)pauseButton.width, (float)pauseButton.height };
 
 public:
     Level();

@@ -56,6 +56,7 @@ Level::Level() {
     isOver = false;              
     totalTiles = TILES_HEIGHT * TILES_WIDTH;
     countFrame = 0;
+    isPause = false;
     createMap();
 }
 
@@ -68,6 +69,12 @@ Level::~Level() {
 }
 
 void Level::draw() {
+    if (!isPause) {
+        DrawTexture(pauseButton, 1120, 250, WHITE);
+    }
+    else {
+        DrawTexture(resumeButton, 1120, 250, WHITE);
+    }
     for (int i = 0; i < TILES_HEIGHT + 2; ++i) {
         for (int j = 0; j < TILES_WIDTH + 2; ++j) {
             tiles[i][j]->draw();
@@ -76,16 +83,23 @@ void Level::draw() {
 }
 
 void Level::update() {
+    Vector2 mousePos = { 0, 0 };
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        mousePos = GetMousePosition();
+    }
+    if (CheckCollisionPointRec(mousePos, pauseButtonRect)) {
+        isPause = !isPause;
+        return;
+    }
+    if (isPause) {
+        return;
+    }
     ++countFrame;
     if (countFrame == 60) {
         --currentTime;
         countFrame = 0;
     }
-    Vector2 mousePos = { 0, 0 };
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-        mousePos = GetMousePosition();
-        getClick(mousePos.x, mousePos.y);
-    }
+    getClick(mousePos.x, mousePos.y);
 }
 
 bool Level::checkOver() {
