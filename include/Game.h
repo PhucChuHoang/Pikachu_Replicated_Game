@@ -1,6 +1,6 @@
 #include "Level.h"
 
-enum class GameState {
+enum GameState {
     MENU,
     PLAYING,
     PAUSE,
@@ -10,10 +10,12 @@ enum class GameState {
 
 class Game {
 private:
+    GameState gameState;
     Level* level;
     int currentLevel;
     int totalScore;
     Texture2D timeBar;
+    Texture2D background;
 
 public:
     Game();
