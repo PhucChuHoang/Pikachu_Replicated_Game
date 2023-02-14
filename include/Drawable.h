@@ -1,3 +1,4 @@
+#pragma once
 #include "TexturesHolder.h"
 
 class Drawable {

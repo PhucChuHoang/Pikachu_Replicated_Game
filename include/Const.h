@@ -24,6 +24,22 @@ extern const std::vector<int> numbPerImg;           // number of each image
 extern const int directionX[4];
 extern const int directionY[4];
 
+enum GameState {
+    MENU,
+    PLAYING,
+    PAUSE,
+    GAME_OVER,
+    WIN,
+    EXIT_GAME
+};
+
+enum MenuState {
+    Menu, 
+    Exit, 
+    Play, 
+    Settings,
+};
+
 enum TileState {
     NotChosen,
     Chosen,
@@ -38,4 +54,7 @@ enum TextureValue {
     background = 36,
     shuffleButton = 37,
     suggestButton = 38,
+    playButton = 39,
+    settingsButton = 40,
+    exitButton = 41,
 };

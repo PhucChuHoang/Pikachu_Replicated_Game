@@ -1,17 +1,12 @@
+#pragma once
 #include "Level.h"
-
-enum GameState {
-    MENU,
-    PLAYING,
-    PAUSE,
-    GAME_OVER,
-    WIN
-};
+#include "MainMenu.h"
 
 class Game {
 private:
     GameState gameState;
     Level* level;
+    MainMenu* menu;
     int currentLevel;
     int totalScore;
     Texture2D timeBar;

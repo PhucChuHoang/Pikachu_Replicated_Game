@@ -6,9 +6,10 @@ TexturesHolder& TexturesHolder::GetInstance() {
 }
 
 TexturesHolder::~TexturesHolder() {
-    for (auto& texture : textures) {
-        UnloadTexture(texture.second);
+    for (auto& img : textures) {
+        UnloadTexture(img.second);
     }
+    textures.clear();
 }
 
 TexturesHolder::TexturesHolder() {
@@ -41,6 +42,18 @@ TexturesHolder::TexturesHolder() {
     path = "assets/button/suggestButton.png";
     img = LoadTexture(path.c_str());
     textures.insert(std::make_pair(static_cast<int>(TextureValue::suggestButton), img));
+
+    path = "assets/button/playButton.png";
+    img = LoadTexture(path.c_str());
+    textures.insert(std::make_pair(static_cast<int>(TextureValue::playButton), img));
+
+    path = "assets/button/settingsButton.png";
+    img = LoadTexture(path.c_str());
+    textures.insert(std::make_pair(static_cast<int>(TextureValue::settingsButton), img));
+
+    path = "assets/button/exitButton.png";
+    img = LoadTexture(path.c_str());
+    textures.insert(std::make_pair(static_cast<int>(TextureValue::exitButton), img));
 }
 
 Texture2D& TexturesHolder::get(int ID) {
