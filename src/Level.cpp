@@ -200,7 +200,6 @@ void Level::getClick(int x, int y) {
                     return;
                 }
                 tilesQueue.push(tiles[i][j]);
-                printf("Size: \n", tilesQueue.size());
                 if (tilesQueue.size() == 2) {
                     if (checkMatching()) {
                         return;

@@ -19,7 +19,7 @@ void Tiles::draw() {
         DrawTexture(texture, PADDING_X + x*TILES_SIZE_WIDTH, PADDING_Y + y*TILES_SIZE_HEIGHT, WHITE);
     }
     else {
-        DrawTexture(texture, PADDING_X + x*TILES_SIZE_WIDTH, PADDING_Y + y*TILES_SIZE_HEIGHT, RED);
+        DrawTexture(texture, PADDING_X + x*TILES_SIZE_WIDTH, PADDING_Y + y*TILES_SIZE_HEIGHT, {225,134,202,255});
     }
 }
 
