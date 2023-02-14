@@ -10,6 +10,8 @@ private:
     bool isPause;                           // If isPause == true => Pause                   
     bool isOver;                            // If isOver == true => Game Over
     int totalTiles; 
+    int numbShuffle;                        // Number of shuffle (3 shuffle per level)
+    int numbSuggest;                        // Number of suggest (3 suggest per level)
     std::vector<int> countPerImg;           // Count number of tiles per image    
     std::queue<Tiles*> tilesQueue;          // Queue of tiles that have been clicked
     int ansTable[11][18];
@@ -20,6 +22,9 @@ private:
 
     Texture2D shuffleButton = TexturesHolder::GetInstance().get(static_cast<int>(TextureValue::shuffleButton));
     Rectangle shuffleButtonRect = { 1120, 400, (float)shuffleButton.width, (float)shuffleButton.height };
+
+    Texture2D suggestButton = TexturesHolder::GetInstance().get(static_cast<int>(TextureValue::suggestButton));
+    Rectangle suggestButtonRect = { 1120, 550, (float)suggestButton.width, (float)suggestButton.height };
 
 public:
     Level();
@@ -33,7 +38,8 @@ public:
     bool checkWin();                        // If totalTiles == 0 => Win => Next Level
     void getClick(int x, int y);            // Get click from mouse
     void bfs();
-    bool isPossibleMoves();
+    bool isPossibleMoves(bool isSuggest);
     void shuffle();
     int getTime();
+    void suggest();
 };

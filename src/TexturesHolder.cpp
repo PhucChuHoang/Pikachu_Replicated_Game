@@ -37,6 +37,10 @@ TexturesHolder::TexturesHolder() {
     path = "assets/button/shuffleButton.png";
     img = LoadTexture(path.c_str());
     textures.insert(std::make_pair(static_cast<int>(TextureValue::shuffleButton), img));
+
+    path = "assets/button/suggestButton.png";
+    img = LoadTexture(path.c_str());
+    textures.insert(std::make_pair(static_cast<int>(TextureValue::suggestButton), img));
 }
 
 Texture2D& TexturesHolder::get(int ID) {

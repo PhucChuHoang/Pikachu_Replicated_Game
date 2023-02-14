@@ -27,14 +27,8 @@ extern const int directionY[4];
 enum TileState {
     NotChosen,
     Chosen,
-    Deleted
-};
-
-struct DequePoint {
-    int x;
-    int y;
-    std::pair<int, int> prevDirection;
-    int countChange;
+    Deleted, 
+    Suggest,
 };
 
 enum TextureValue {
@@ -43,4 +37,5 @@ enum TextureValue {
     resumeButton = 35,
     background = 36,
     shuffleButton = 37,
+    suggestButton = 38,
 };

@@ -15,8 +15,11 @@ void Tiles::draw() {
     if (state == TileState::Chosen) {
         DrawTexture(texture, PADDING_X + x*TILES_SIZE_WIDTH, PADDING_Y + y*TILES_SIZE_HEIGHT, GRAY);
     }
-    else {
+    else if (state == TileState::NotChosen){
         DrawTexture(texture, PADDING_X + x*TILES_SIZE_WIDTH, PADDING_Y + y*TILES_SIZE_HEIGHT, WHITE);
+    }
+    else {
+        DrawTexture(texture, PADDING_X + x*TILES_SIZE_WIDTH, PADDING_Y + y*TILES_SIZE_HEIGHT, RED);
     }
 }
 

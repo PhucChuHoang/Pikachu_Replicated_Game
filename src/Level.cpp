@@ -9,7 +9,7 @@ std::vector<std::vector<int>> Level::random() {            // 0 <= random <= 32
     }
     for (int i = 0; i < TILES_HEIGHT + 2; ++i) {
         for (int j = 0; j < TILES_WIDTH + 2; ++j) {
-            if (i == 0 || i == TILES_HEIGHT + 1 || j == 0 || j == TILES_WIDTH + 1) {
+            if (i == 0 || i == TILES_HEIGHT + 1 || j == 0 || j == TILES_WIDTH + 1) {    //Create a border
                 ans[i][j] = 32;                             // 32 is the image of the border
                 continue;
             }
@@ -39,7 +39,6 @@ void Level::createMap() {
             }
         }
     }
-
     tilesRect.resize(TILES_HEIGHT + 2);
     for (int i = 0; i < TILES_HEIGHT + 2; ++i) {
         tilesRect[i].resize(TILES_WIDTH + 2);
@@ -57,6 +56,8 @@ Level::Level() {
     totalTiles = TILES_HEIGHT * TILES_WIDTH;
     countFrame = 0;
     isPause = false;
+    numbShuffle = 3;
+    numbSuggest = 3;
     createMap();
 }
 
@@ -76,6 +77,9 @@ void Level::draw() {
         DrawTexture(resumeButton, 1120, 250, {251,202,206,255});
     }
     DrawTexture(shuffleButton, 1120, 400, {251,202,206,255});
+    DrawText(TextFormat("%d", numbShuffle), 1182, 385, 30, BLACK);
+    DrawTexture(suggestButton, 1120, 550, {251,202,206,255});
+    DrawText(TextFormat("%d", numbSuggest), 1182, 535, 30, BLACK);
     for (int i = 0; i < TILES_HEIGHT + 2; ++i) {
         for (int j = 0; j < TILES_WIDTH + 2; ++j) {
             tiles[i][j]->draw();
@@ -92,11 +96,21 @@ void Level::update() {
         isPause = !isPause;
         return;
     }
-    else if (CheckCollisionPointRec(mousePos, shuffleButtonRect)) {
-        shuffle();
+    else if (isPause) {
         return;
     }
-    if (isPause) {
+    else if (CheckCollisionPointRec(mousePos, shuffleButtonRect)) {
+        if (numbShuffle != 0) {
+            shuffle();
+            --numbShuffle;
+        }
+        return;
+    }
+    else if (CheckCollisionPointRec(mousePos, suggestButtonRect)) {
+        if (numbSuggest != 0) {
+            --numbSuggest;
+            isPossibleMoves(true);
+        }
         return;
     }
     ++countFrame;
@@ -129,7 +143,7 @@ bool Level::checkMatching() {
         totalTiles -= 2;
         tilesQueue.pop();
         tilesQueue.pop();
-        if (isPossibleMoves() != true) {
+        if (isPossibleMoves(false) != true) {
             shuffle();
         }
         return true;
@@ -177,7 +191,7 @@ void Level::getClick(int x, int y) {
                 if (tiles[i][j]->getState() == Deleted) {
                     return;
                 }
-                if (tiles[i][j]->getState() == NotChosen) {
+                if (tiles[i][j]->getState() == NotChosen || tiles[i][j]->getState() == Suggest) {
                     tiles[i][j]->setState(TileState::Chosen);
                 }
                 else if (tiles[i][j]->getState() == Chosen){
@@ -186,6 +200,7 @@ void Level::getClick(int x, int y) {
                     return;
                 }
                 tilesQueue.push(tiles[i][j]);
+                printf("Size: \n", tilesQueue.size());
                 if (tilesQueue.size() == 2) {
                     if (checkMatching()) {
                         return;
@@ -200,7 +215,7 @@ void Level::getClick(int x, int y) {
     return;
 }
 
-bool Level::isPossibleMoves() {
+bool Level::isPossibleMoves(bool isSuggest) {
     for (int i = 0; i < TILES_HEIGHT + 2; ++i) {
         for (int j = 0; j < TILES_WIDTH + 2; ++j) {
             if (tiles[i][j] -> getState() == Deleted) {
@@ -218,10 +233,14 @@ bool Level::isPossibleMoves() {
                     tilesQueue.push(tiles[k][l]);
                     bfs();
                     if (tilesQueue.front()->getState() == Deleted || tilesQueue.back()->getState() == Deleted) {
-                        printf("X: %d Y: %d\n", tilesQueue.front()->getX(), tilesQueue.front()->getY());
-                        printf("X: %d Y: %d\n", tilesQueue.back()->getX(), tilesQueue.back()->getY());
-                        tilesQueue.front()->setState(TileState::NotChosen);
-                        tilesQueue.back()->setState(TileState::NotChosen);
+                        if (isSuggest) {
+                            tilesQueue.front()->setState(TileState::Suggest);
+                            tilesQueue.back()->setState(TileState::Suggest);
+                        }
+                        else {
+                            tilesQueue.front()->setState(TileState::NotChosen);
+                            tilesQueue.back()->setState(TileState::NotChosen);
+                        }
                         tilesQueue.pop();
                         tilesQueue.pop();
                         return true;
