@@ -33,12 +33,18 @@ void Game::run() {
                 menu->draw();
                 if (menu->getState() == Play) {
                     gameState = PLAYING;
+                    menu->setState(Menu);
                 }
                 else if (menu->getState() == Exit) {
                     gameState = EXIT_GAME;
                 }
                 break;
             case PLAYING: {
+                if (level->isReturnToMenu() == true) {
+                    gameState = MENU;
+                    level->setReturnToMenu();
+                    break;
+                }
                 level->update();
                 level->draw();
                 DrawText(TextFormat("%d", totalScore), 1100, 30, 40, BLACK);
@@ -55,6 +61,7 @@ void Game::run() {
                     level = new Level();
                     break;
                 }
+                break;
             }
             case PAUSE:
                 break;

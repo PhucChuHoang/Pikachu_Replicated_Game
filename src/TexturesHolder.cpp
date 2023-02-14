@@ -54,6 +54,14 @@ TexturesHolder::TexturesHolder() {
     path = "assets/button/exitButton.png";
     img = LoadTexture(path.c_str());
     textures.insert(std::make_pair(static_cast<int>(TextureValue::exitButton), img));
+
+    path = "assets/button/gameName.png";
+    img = LoadTexture(path.c_str());
+    textures.insert(std::make_pair(static_cast<int>(TextureValue::gameName), img));
+
+    path = "assets/button/returnButton.png";
+    img = LoadTexture(path.c_str());
+    textures.insert(std::make_pair(static_cast<int>(TextureValue::returnButton), img));
 }
 
 Texture2D& TexturesHolder::get(int ID) {

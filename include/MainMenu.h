@@ -4,6 +4,7 @@ class MainMenu: public Drawable{
 private:
     MenuState menuState;
     
+    Texture2D gameName = TexturesHolder::GetInstance().get(static_cast<int>(TextureValue::gameName));
     Texture2D playButton = TexturesHolder::GetInstance().get(static_cast<int>(TextureValue::playButton));
     Texture2D settingsButton = TexturesHolder::GetInstance().get(static_cast<int>(TextureValue::settingsButton));
     Texture2D exitButton = TexturesHolder::GetInstance().get(static_cast<int>(TextureValue::exitButton));
@@ -18,4 +19,5 @@ public:
     MainMenu();
     ~MainMenu();
     MenuState getState();
+    void setState(MenuState state);
 };

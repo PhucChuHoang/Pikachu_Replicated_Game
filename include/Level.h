@@ -10,6 +10,7 @@ private:
     int currentTime;     
     bool isPause;                           // If isPause == true => Pause                   
     bool isOver;                            // If isOver == true => Game Over
+    bool isReturn;                          // If isReturn == true => Return to main menu
     int totalTiles; 
     int numbShuffle;                        // Number of shuffle (3 shuffle per level)
     int numbSuggest;                        // Number of suggest (3 suggest per level)
@@ -27,6 +28,9 @@ private:
     Texture2D suggestButton = TexturesHolder::GetInstance().get(static_cast<int>(TextureValue::suggestButton));
     Rectangle suggestButtonRect = { 1120, 550, (float)suggestButton.width, (float)suggestButton.height };
 
+    Texture2D returnButton = TexturesHolder::GetInstance().get(static_cast<int>(TextureValue::returnButton));
+    Rectangle returnButtonRect = { 20, 30, (float)returnButton.width, (float)returnButton.height };
+
 public:
     Level();
     ~Level();
@@ -40,6 +44,8 @@ public:
     void getClick(int x, int y);            // Get click from mouse
     void bfs();
     bool isPossibleMoves(bool isSuggest);
+    bool isReturnToMenu();
+    void setReturnToMenu();
     void shuffle();
     int getTime();
     void suggest();

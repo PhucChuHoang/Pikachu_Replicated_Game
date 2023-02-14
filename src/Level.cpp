@@ -58,6 +58,7 @@ Level::Level() {
     isPause = false;
     numbShuffle = 3;
     numbSuggest = 3;
+    isReturn = false;
     createMap();
 }
 
@@ -80,6 +81,7 @@ void Level::draw() {
     DrawText(TextFormat("%d", numbShuffle), 1182, 385, 30, BLACK);
     DrawTexture(suggestButton, 1120, 550, {251,202,206,255});
     DrawText(TextFormat("%d", numbSuggest), 1182, 535, 30, BLACK);
+    DrawTexture(returnButton, 20, 30, {251,202,206,255});
     for (int i = 0; i < TILES_HEIGHT + 2; ++i) {
         for (int j = 0; j < TILES_WIDTH + 2; ++j) {
             tiles[i][j]->draw();
@@ -94,6 +96,10 @@ void Level::update() {
     }
     if (CheckCollisionPointRec(mousePos, pauseButtonRect)) {
         isPause = !isPause;
+        return;
+    }
+    else if (CheckCollisionPointRec(mousePos, returnButtonRect)) {
+        isReturn = true;
         return;
     }
     else if (isPause) {
@@ -279,4 +285,13 @@ void Level::shuffle() {
 
 int Level::getTime() {
     return currentTime;
+}
+
+bool Level::isReturnToMenu() {
+    return isReturn;
+}
+
+void Level::setReturnToMenu() {
+    isReturn = false;
+    return;
 }

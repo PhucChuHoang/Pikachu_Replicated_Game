@@ -57,4 +57,6 @@ enum TextureValue {
     playButton = 39,
     settingsButton = 40,
     exitButton = 41,
+    gameName = 42,
+    returnButton = 43,
 };
