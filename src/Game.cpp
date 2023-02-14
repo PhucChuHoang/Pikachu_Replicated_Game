@@ -48,7 +48,7 @@ void Game::run() {
                 level->update();
                 level->draw();
                 DrawText(TextFormat("%d", totalScore), 1100, 30, 40, BLACK);
-                DrawTextureRec(timeBar, {0, 0, (float)timeBar.width - (float)((420 - level->getTime())*1.9), (float)timeBar.height - 10}, {(float)SCREEN_WIDTH / 2 - timeBar.width / 2, 30}, WHITE);
+                DrawTextureRec(timeBar, {0, 0, (float)timeBar.width - (float)((420 - level->getTime())*1.9), (float)timeBar.height / 3}, {(float)SCREEN_WIDTH / 2 - timeBar.width / 2, 50}, WHITE);
                 if (level->checkOver()) {
                     gameState = GAME_OVER;
                     break;
